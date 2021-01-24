@@ -1,0 +1,49 @@
+/*
+This program returns the number of rotation done in an array.
+Array is sorted and there is no duplicate element in an array.
+Binary search is used to do so, Time complexity is O(logn)
+*/
+
+#include <iostream>
+using namespace std;
+
+int countRotationWithBinarySearch(int* arr, int size){
+    int low = 0;
+    int high = size-1;
+    int mid;
+
+    while(low<=high){
+        // When array is already sorted, means array is not rotated at all.
+        if(arr[low]<arr[high])
+            return low;
+
+        mid = (low+high)/2;
+        // finding previous element from mid element
+        int prev = (mid-1+size)%size;
+        if(arr[prev]>arr[mid])
+            return mid;
+
+        // Discard left half of array
+        if(arr[low]<=arr[mid]){
+            low = mid+1;
+        }
+        // Discard right half of array
+        else{
+            high = mid-1;
+        }
+    }
+    return mid;
+}
+
+int main()
+{
+    // Original Array
+    // int arr[] = {1,2,4,5,7,8,9};
+
+    // Array rotated three times towards right
+    int arr[] = {7,8,9,1,2,4,5,};
+
+    int index = countRotationWithBinarySearch(arr,sizeof(arr)/sizeof(int));
+    cout<<"Array rotated for "<<index<<" times"<<endl;
+    return 0;
+}
